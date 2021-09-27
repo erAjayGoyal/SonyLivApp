@@ -1,0 +1,2 @@
+# SonyLiveApp
+SonyLiv localization app
