@@ -1,0 +1,15 @@
+{
+ "txt_hello_world": [
+  {
+   "en": "Hello World",
+   "hi": "नमस्ते दुनिया",
+   "bn": "Ōhē biśba"
+  }
+ ],
+ "txt_welcome": [
+  {
+   "en": "Welcome to Sony Liv entertainment world",
+   "hi": "सोनी लिव मनोरंजन जगत में आपका स्वागत ह"
+  }
+ ]
+}
