@@ -1,9 +1,14 @@
 package com.sonyliv.app
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.sonyliv.app.model.Language
 import com.sonyliv.app.utility.LocaleManager
 import kotlinx.android.synthetic.main.activity_main_layout.btnBangali
@@ -14,19 +19,53 @@ import kotlinx.android.synthetic.main.activity_main_layout.txtWelcome
 import java.util.Locale
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
-
+  private val EXTERNAL_STORAGE_PERMISSION_CODE = 23
   private lateinit var locale: Locale
   private lateinit var localeManager: LocaleManager
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main_layout)
 
-    setUpLocaleDataFromFile()
+    //request for external storage read permission
+    requestStoragePermission()
+
     //setting up button click event listener
     btnBangali.setOnClickListener(this)
     btnHindi.setOnClickListener(this)
     btnEnglish.setOnClickListener(this)
 
+  }
+
+  private fun requestStoragePermission() {
+    if (checkStoragePermissions()) {
+      setUpLocaleDataFromFile()
+    } else {
+      if (VERSION.SDK_INT >= VERSION_CODES.M) {
+        requestPermissions(
+          arrayOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+          ),
+          EXTERNAL_STORAGE_PERMISSION_CODE
+        )
+      }
+    }
+  }
+
+  private fun checkStoragePermissions(): Boolean {
+    val permission = ContextCompat.checkSelfPermission(
+      this,
+      Manifest.permission.READ_EXTERNAL_STORAGE
+    )
+    return permission == PackageManager.PERMISSION_GRANTED
+  }
+
+  override fun onRequestPermissionsResult(
+    requestCode: Int,
+    permissions: Array<String>,
+    grantResults: IntArray
+  ) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    setUpLocaleDataFromFile()
   }
 
   /**
