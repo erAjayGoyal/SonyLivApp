@@ -1,4 +1,4 @@
-# SonyLiveApp
+# SonyLivApp
 SonyLiv repository that contains localization functionality from external storage
 
 ### List of modules
